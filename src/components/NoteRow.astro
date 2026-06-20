@@ -1,10 +1,16 @@
 ---
 import Icon from './Icon.astro';
-interface Props { note: { id: string; data: { title: string; description: string; published: Date; category: string } } }
+interface Props { note: { id: string; data: { title: string; description: string; published: Date; category: string; lang: 'en' | 'zh' } } }
 const { note } = Astro.props;
-const date = note.data.published.toLocaleDateString('en', { year: 'numeric', month: 'short', day: '2-digit' });
+const date = note.data.published.toLocaleDateString(note.data.lang === 'zh' ? 'zh-CN' : 'en', {
+  year: 'numeric',
+  month: note.data.lang === 'zh' ? 'numeric' : 'short',
+  day: '2-digit',
+});
+const slug = note.id.replace(/^zh\//, '');
+const href = note.data.lang === 'zh' ? `/zh/notes/${slug}/` : `/notes/${slug}/`;
 ---
-<a class="note-row" href={`/notes/${note.id}/`}>
+<a class="note-row" href={href}>
   <span class="note-date">{date}</span>
   <span class="note-main"><strong>{note.data.title}</strong><small>{note.data.description}</small></span>
   <span class="note-category">{note.data.category}</span>

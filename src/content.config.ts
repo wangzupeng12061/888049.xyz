@@ -9,6 +9,7 @@ const notes = defineCollection({
     description: z.string(),
     published: z.coerce.date(),
     category: z.string(),
+    lang: z.enum(['en', 'zh']),
     tags: z.array(z.string()),
     draft: z.boolean().default(false),
   }),

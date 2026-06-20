@@ -1,25 +1,26 @@
 ---
-title: "Ceph 架构笔记：从对象映射理解去中心化"
-description: "理解 RADOS、CRUSH、OSD 与上层接口之间的职责边界。"
+title: "Ceph Architecture: Understanding Decentralization Through Object Placement"
+description: "A study of the responsibility boundaries among RADOS, CRUSH, OSDs, and upper-layer interfaces."
 published: 2026-05-26
 category: "Storage Systems"
+lang: en
 tags: ["Ceph", "RADOS", "CRUSH", "Distributed Systems"]
 ---
 
-理解 Ceph 的关键不是先记住所有守护进程，而是理解一个对象如何找到它的存储位置，以及集群变化后为什么仍能完成定位。
+The key to understanding Ceph is not memorizing every daemon. It is understanding how an object finds its storage location and why the system can still locate it after the cluster changes.
 
-## RADOS 是共同底座
+## RADOS as the shared foundation
 
-RBD、CephFS 和 RGW 提供不同的数据模型，但最终都建立在 RADOS 之上。这个分层意味着块、文件和对象接口可以共享同一套复制、恢复和集群管理能力。
+RBD, CephFS, and RGW expose different data models, but all are built on RADOS. This layering lets block, file, and object interfaces share replication, recovery, and cluster-management mechanisms.
 
-## CRUSH 解决定位
+## CRUSH handles placement
 
-传统系统可能依赖中心元数据表记录每个对象的位置。Ceph 使用 CRUSH，根据对象和集群拓扑计算放置结果。客户端不必为每次 I/O 查询中心节点，因此数据路径可以直接到达 OSD。
+Traditional systems may depend on a central metadata table that records every object's location. Ceph uses CRUSH to calculate placement from the object and cluster topology. A client does not need a central lookup for every I/O, so the data path can go directly to an OSD.
 
-Placement Group 位于对象与 OSD 之间。对象先映射到 PG，再由 CRUSH 将 PG 放置到一组 OSD。PG 数量影响数据分布、恢复粒度和管理开销，不能只把它看成配置参数。
+A Placement Group sits between objects and OSDs. Objects map to PGs, then CRUSH places each PG on a set of OSDs. The number of PGs affects distribution, recovery granularity, and management overhead; it is more than a tuning parameter.
 
-## 控制面仍然重要
+## The control plane still matters
 
-“去中心化数据路径”不等于“没有协调”。Monitor 维护集群映射和一致认可的状态，Manager 提供额外的监控与管理能力。区分数据路径与控制路径，有助于准确理解故障影响。
+A decentralized data path does not mean coordination disappears. Monitors maintain cluster maps and the agreed cluster state, while Managers provide additional monitoring and management functions. Separating data and control paths makes failure impact easier to reason about.
 
-学习分布式存储时，持续追问三个问题很有效：谁决定位置、谁保存权威状态、故障后谁推动恢复。Ceph 的各个组件正是围绕这些职责展开。
+Three questions are useful when learning a distributed storage system: who decides placement, who holds authoritative state, and who drives recovery after failure? Ceph's components are organized around these responsibilities.

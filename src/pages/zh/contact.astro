@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+---
+<BaseLayout lang="zh" title="联系 — 王祖鹏" description="与王祖鹏交流 AI 系统、存储系统与工程实践。">
+  <section class="contact-page shell"><p class="eyebrow">联系</p><h1>让我们交换<br /><em>有价值的想法。</em></h1><p>如果你希望讨论研究、工程协作或项目问题，目前最合适的联系渠道是 GitHub。</p><a class="button primary" href={site.github} target="_blank" rel="noreferrer"><Icon name="github" /> GitHub 主页</a><small>公开邮箱将在确认后补充。</small></section>
+</BaseLayout>

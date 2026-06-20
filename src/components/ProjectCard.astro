@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
-interface Props { project: { slug: string; number: string; title: string; role: string; description: string; tags: string[] } }
-const { project } = Astro.props;
+interface Props { project: { slug: string; number: string; title: string; role: string; description: string; tags: string[] }; lang?: 'en' | 'zh' }
+const { project, lang = 'en' } = Astro.props;
 ---
 <article class="project-card">
   <div class="project-top"><span>{project.number}</span><span>{project.role}</span></div>
@@ -11,6 +11,6 @@ const { project } = Astro.props;
   </div>
   <div class="project-bottom">
     <ul>{project.tags.map((tag) => <li>{tag}</li>)}</ul>
-    <a href={`/projects#${project.slug}`} aria-label={`Read about ${project.title}`}><Icon name="arrow" /></a>
+    <a href={`${lang === 'zh' ? '/zh' : ''}/projects#${project.slug}`} aria-label={lang === 'zh' ? `查看${project.title}` : `Read about ${project.title}`}><Icon name="arrow" /></a>
   </div>
 </article>

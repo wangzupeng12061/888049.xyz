@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { interestsZh, site } from '../../data/site';
+---
+<BaseLayout lang="zh" title="关于 — 王祖鹏" description="王祖鹏，关注 AI 系统、存储系统与后端工程的硕士研究生。">
+  <section class="page-hero shell"><p class="eyebrow">关于 / About</p><h1>以好奇心探索，<br /><em>用工程实现。</em></h1></section>
+  <section class="section shell about-intro">
+    <div class="portrait-wrap"><img src="/avatar.jpg" alt="王祖鹏" width="460" height="460" /></div>
+    <div class="prose-large">
+      <p>我是<strong>{site.universityZh}</strong>硕士研究生。我的工作位于 AI 系统与存储系统的交叉地带，关注模型执行、持续演化的知识与物理资源如何协同。</p>
+      <p>I study the systems boundary where model execution, evolving knowledge, and physical resources meet.</p>
+    </div>
+  </section>
+  <section class="section section-dark">
+    <div class="shell about-grid">
+      <div><p class="eyebrow">我关注的问题</p><h2>先提出问题，<br />再选择技术。</h2></div>
+      <div class="principles">
+        <article><span>01</span><h3>记忆应当如何演化？</h3><p>多种表示之间的版本、遗忘、派生关系与一致性。</p></article>
+        <article><span>02</span><h3>数据应当存放在哪里？</h3><p>GPU、CPU、SSD 与分布式存储之间的放置和调度。</p></article>
+        <article><span>03</span><h3>什么让系统真正有用？</h3><p>清晰的边界、可测量的行为，以及经得住现实约束的工程。</p></article>
+      </div>
+    </div>
+  </section>
+  <section class="section shell"><div class="section-heading"><p class="eyebrow">技术关键词</p></div><div class="tag-cloud">{interestsZh.map((x) => <span>{x.title}</span>)}<span>分布式系统</span><span>Go</span><span>Linux</span><span>Ceph</span><span>NFS</span><span>可观测性</span></div></section>
+</BaseLayout>

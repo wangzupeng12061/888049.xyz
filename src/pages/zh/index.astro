@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import NoteRow from '../../components/NoteRow.astro';
+import Icon from '../../components/Icon.astro';
+import { interestsZh, projectsZh, site } from '../../data/site';
+const notes = (await getCollection('notes', ({ data }) => !data.draft && data.lang === 'zh')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()).slice(0, 4);
+---
+<BaseLayout lang="zh" title="王祖鹏 — AI 系统与存储" description="王祖鹏的研究型个人主页，关注 Agent 记忆、KV Cache、存储系统与后端工程。">
+  <section class="hero shell">
+    <div class="hero-status"><span></span> 华中科技大学 · 中国武汉</div>
+    <h1>为持续<em>演化的记忆</em><br />构建系统。</h1>
+    <div class="hero-bottom">
+      <p>我是 <strong>{site.nameZh}</strong>，一名探索智能系统基础设施的硕士研究生，研究范围涵盖 Agent 记忆、KV Cache 与分布式存储。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/zh/research">探索研究 <Icon name="arrow" /></a>
+        <a class="button secondary" href={site.github} target="_blank" rel="noreferrer"><Icon name="github" /> GitHub</a>
+      </div>
+    </div>
+    <div class="coordinate" aria-hidden="true">30.52° N<br />114.41° E</div>
+  </section>
+
+  <section class="manifesto section-dark">
+    <div class="shell two-col-head">
+      <p class="eyebrow">研究出发点</p>
+      <p class="statement">记忆并非静态记录，而是由多种表示、版本与决策共同构成的动态系统。</p>
+    </div>
+    <div class="shell interest-grid">
+      {interestsZh.map((item) => <article><span>{item.index}</span><h3>{item.title}</h3><p>{item.detail}</p></article>)}
+    </div>
+  </section>
+
+  <section class="section shell featured-research">
+    <div class="section-heading"><p class="eyebrow">重点研究</p><span>2025 — 至今</span></div>
+    <div class="research-feature">
+      <div class="research-visual" aria-hidden="true">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+        <div class="core">M</div>
+        <span class="node node-a">文本</span><span class="node node-b">向量</span><span class="node node-c">摘要</span><span class="node node-d">KV</span>
+      </div>
+      <div class="research-copy">
+        <p class="kicker">版本化多表示存储</p>
+        <h2>让持续演化的 Agent 记忆保持一致。</h2>
+        <p>研究文本、向量、摘要与执行相关的 KV Cache 视图如何维持版本一致，并在 GPU、CPU 与 SSD 资源之间进行调度。</p>
+        <blockquote>“KV Cache 不应被视为事实记忆源，而应被定义为特定模型执行环境下的物化视图。”</blockquote>
+        <a class="text-link" href="/zh/research">了解研究方向 <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="shell">
+      <div class="section-heading"><p class="eyebrow">精选项目</p><a href="/zh/projects">查看全部项目</a></div>
+      <div class="project-grid">{projectsZh.map((project) => <ProjectCard project={project} lang="zh" />)}</div>
+    </div>
+  </section>
+
+  <section class="section shell notes-preview">
+    <div class="section-heading"><p class="eyebrow">技术笔记</p><a href="/zh/notes">浏览全部笔记</a></div>
+    <div class="note-list">{notes.map((note) => <NoteRow note={note} />)}</div>
+  </section>
+</BaseLayout>

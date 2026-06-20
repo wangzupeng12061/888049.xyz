@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const directions = [
+  ['01', '持续演化的 Agent 记忆', '将记忆建模为不断变化的知识集合，显式支持新增、修改、合并与遗忘。'],
+  ['02', '版本化多表示', '追踪文本、摘要、向量和模型执行产物之间的派生关系与有效性。'],
+  ['03', '作为视图的 KV Cache', '将 KV Cache 定义为绑定模型、tokenizer、提示词布局与执行环境的物化视图。'],
+  ['04', '效用感知调度', '综合延迟、质量、复用概率、重算成本与资源压力，在不同资源层之间做出决策。'],
+  ['05', '一致性与遗忘', '当事实源被编辑、合并、过期或删除时，可靠传播失效状态。'],
+];
+---
+<BaseLayout lang="zh" title="研究 — 王祖鹏" description="关于演化 Agent 记忆、版本化多表示存储、KV Cache 与效用感知调度的研究。">
+  <section class="page-hero shell research-hero"><p class="eyebrow">当前研究</p><h1>面向<em>演化记忆</em><br />的基础设施。</h1><p class="page-lede">Agent 的记忆如何在持续变化的同时，保持一致、高效，并拥有真正的遗忘能力？</p></section>
+  <section class="section shell research-thesis"><p class="eyebrow">研究方向</p><div><h2>面向演化 Agent 记忆的版本化多表示存储与效用感知调度研究</h2><p>Versioned Multi-representation Storage and Utility-aware Scheduling for Evolving Agent Memory</p></div></section>
+  <section class="section section-dark"><div class="shell direction-list">{directions.map(([n, title, description]) => <article><span>{n}</span><h3>{title}</h3><p>{description}</p></article>)}</div></section>
+  <section class="section shell research-model">
+    <div><p class="eyebrow">系统模型</p><h2>事实位于中心，<br />视图环绕其外。</h2><p>事实源保持权威，派生表示则是版本化、可追溯且可被丢弃的。明确这条边界，才能实现安全复用与有效遗忘。</p></div>
+    <div class="layer-diagram">
+      <div><small>执行视图</small><strong>KV Cache</strong><span>模型 · tokenizer · 布局</span></div>
+      <div><small>语义视图</small><strong>向量 · 摘要</strong><span>派生 · 版本化 · 可替换</span></div>
+      <div class="source"><small>事实源</small><strong>规范化记忆</strong><span>可审计 · 可编辑 · 权威</span></div>
+    </div>
+  </section>
+</BaseLayout>

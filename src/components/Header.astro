@@ -2,37 +2,50 @@
 import Icon from './Icon.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { site } from '../data/site';
+import { getLang, getLanguagePaths, localizePath } from '../i18n';
 const path = Astro.url.pathname;
+const lang = getLang(path);
+const languagePaths = getLanguagePaths(path);
 const links = [
-  ['/research', 'Research'],
-  ['/projects', 'Projects'],
-  ['/notes', 'Notes'],
-  ['/about', 'About'],
+  ['/research', lang === 'zh' ? '研究' : 'Research'],
+  ['/projects', lang === 'zh' ? '项目' : 'Projects'],
+  ['/notes', lang === 'zh' ? '笔记' : 'Notes'],
+  ['/about', lang === 'zh' ? '关于' : 'About'],
 ];
+const resumeLabel = lang === 'zh' ? '简历' : 'Résumé';
+const homePath = localizePath('/', lang);
+const localizedLinks = links.map(([href, label]) => [localizePath(href, lang), label]);
+const resumePath = localizePath('/resume', lang);
 ---
 <header class="site-header">
   <div class="nav-shell">
-    <a class="brand" href="/" aria-label="Wang Zupeng home">
+    <a class="brand" href={homePath} aria-label={lang === 'zh' ? '王祖鹏首页' : 'Wang Zupeng home'}>
       <span class="brand-mark">WZ</span>
       <span>{site.domain}</span>
     </a>
-    <nav aria-label="Primary navigation">
-      {links.map(([href, label]) => <a href={href} class:list={{ active: path.startsWith(href) }}>{label}</a>)}
-      <a href="/resume" class:list={{ active: path.startsWith('/resume') }}>Résumé</a>
+    <nav aria-label={lang === 'zh' ? '主导航' : 'Primary navigation'}>
+      {localizedLinks.map(([href, label]) => <a href={href} class:list={{ active: path.startsWith(href) }}>{label}</a>)}
+      <a href={resumePath} class:list={{ active: path.startsWith(resumePath) }}>{resumeLabel}</a>
     </nav>
     <div class="nav-actions">
-      <ThemeToggle />
+      <a class="language-toggle" href={lang === 'zh' ? languagePaths.en : languagePaths.zh} lang={lang === 'zh' ? 'en' : 'zh-CN'} hreflang={lang === 'zh' ? 'en' : 'zh-CN'} data-language={lang === 'zh' ? 'en' : 'zh'} aria-label={lang === 'zh' ? 'Switch to English' : '切换到中文'}>{lang === 'zh' ? 'EN' : '中'}</a>
+      <ThemeToggle lang={lang} />
       <button class="menu-button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
     </div>
   </div>
   <div id="mobile-nav" class="mobile-nav" hidden>
-    {links.map(([href, label]) => <a href={href}>{label}</a>)}
-    <a href="/resume">Résumé</a>
+    {localizedLinks.map(([href, label]) => <a href={href}>{label}</a>)}
+    <a href={resumePath}>{resumeLabel}</a>
   </div>
 </header>
 <script>
   const button = document.querySelector<HTMLButtonElement>('.menu-button');
   const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  const languageToggle = document.querySelector<HTMLAnchorElement>('.language-toggle');
+  languageToggle?.addEventListener('click', () => {
+    const language = languageToggle.dataset.language;
+    if (language) localStorage.setItem('language', language);
+  });
   button?.addEventListener('click', () => {
     if (!menu) return;
     const open = menu.hidden;

@@ -1,27 +1,28 @@
 ---
-title: "KV Cache 与 Agent Memory：先划清事实与执行的边界"
-description: "为什么 KV Cache 更适合作为模型执行相关的物化视图，而不是 Agent 的事实记忆。"
+title: "KV Cache and Agent Memory: Drawing the Boundary Between Facts and Execution"
+description: "Why KV cache is better treated as a model-execution-specific materialized view rather than an Agent's factual memory."
 published: 2026-06-18
 category: "AI Systems"
+lang: en
 tags: ["Agent Memory", "KV Cache", "LLM Inference"]
 ---
 
-讨论 Agent Memory 时，文本、摘要、向量和 KV Cache 经常被放在同一张架构图里。但“都能减少重复计算”并不意味着它们拥有相同的语义。
+When discussing Agent memory, text, summaries, vectors, and KV cache often appear in the same architecture diagram. But reducing repeated computation does not give them the same semantics.
 
-## 事实源与派生视图
+## Factual sources and derived views
 
-文本记忆可以被审计、编辑和删除，因此适合作为事实源。摘要和向量依赖某个生成模型或编码器，是可重新生成的派生表示。KV Cache 的约束更强：它还绑定模型权重、tokenizer、prompt 布局、位置编码和推理实现。
+Textual memory can be audited, edited, and deleted, making it suitable as a factual source. Summaries and vectors depend on a generation model or encoder and are derived representations that can be rebuilt. KV cache has even tighter constraints: it is bound to model weights, tokenizer, prompt layout, positional encoding, and inference implementation.
 
-因此，更稳妥的定义是：
+A safer definition is therefore:
 
-> KV Cache 不是事实记忆，而是特定模型执行环境下的物化视图。
+> KV cache is not factual memory. It is a materialized view tied to a specific model execution environment.
 
-这个定义直接影响失效策略。当事实源发生修改时，系统不应试图“修补”旧缓存，而应沿依赖关系识别受影响的派生视图，并决定删除、延迟重建或按需重算。
+This definition directly shapes invalidation. When a factual source changes, a system should not attempt to patch an old cache. It should trace the affected derived views and decide whether to delete, defer rebuilding, or recompute them on demand.
 
-## 版本需要回答什么
+## What a version must explain
 
-仅给记忆对象增加一个递增版本号并不够。系统至少要记录：事实版本、派生版本、生成配置，以及视图所依赖的事实范围。这样才能判断一个缓存是“仍然正确”，还是仅仅“仍然存在”。
+Adding one increasing version number to a memory object is not enough. A system should record at least the factual version, derived version, generation configuration, and the source range on which a view depends. Only then can it distinguish a cache that is still correct from one that merely still exists.
 
-## 研究问题
+## The systems question
 
-真正困难的部分不是缓存本身，而是在有限资源下决定保留什么：复用概率、重算成本、访问延迟、显存压力和错误代价必须进入同一个调度模型。这也是 Agent Memory 从数据结构走向系统问题的地方。
+The hard part is not caching itself, but deciding what to retain under limited resources. Reuse probability, recomputation cost, latency, GPU memory pressure, and the cost of stale results must enter the same scheduling model. This is where Agent memory becomes a systems problem rather than a data-structure problem.

@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projectsZh } from '../../data/site';
+---
+<BaseLayout lang="zh" title="项目 — 王祖鹏" description="王祖鹏参与的系统、后端与基础设施项目。">
+  <section class="page-hero shell"><p class="eyebrow">精选项目</p><h1>从系统内部，<br /><em>理解系统。</em></h1><p class="page-lede">记录在真实约束下构建、测量与理解系统的过程。</p></section>
+  <section class="section shell project-index">
+    {projectsZh.map((project) => <article id={project.slug}><div class="project-number">{project.number}</div><div class="project-detail"><p class="kicker">{project.role}</p><h2>{project.title}</h2><p>{project.description}</p><ul>{project.tags.map((tag) => <li>{tag}</li>)}</ul></div><div class="project-signal" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div></article>)}
+  </section>
+</BaseLayout>

@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NoteRow from '../../../components/NoteRow.astro';
+const notes = (await getCollection('notes', ({ data }) => !data.draft && data.lang === 'zh')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const categories = [...new Set(notes.map((note) => note.data.category))];
+---
+<BaseLayout lang="zh" title="笔记 — 王祖鹏" description="关于 AI 系统、存储、基础设施与后端工程的技术笔记。">
+  <section class="page-hero shell"><p class="eyebrow">技术笔记</p><h1>公开学习，<br /><em>逐个理解系统。</em></h1><p class="page-lede">工作笔记、实验与解释。让每一次探索都成为下一次研究的基础。</p></section>
+  <section class="section shell notes-page"><div class="filter-row"><span>全部笔记 · {notes.length}</span><div>{categories.map((category) => <span>{category}</span>)}</div></div><div class="note-list">{notes.map((note) => <NoteRow note={note} />)}</div></section>
+</BaseLayout>

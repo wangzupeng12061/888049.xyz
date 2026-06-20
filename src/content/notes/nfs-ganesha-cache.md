@@ -1,25 +1,26 @@
 ---
-title: "NFS-Ganesha 缓存命中率：指标定义比采样更重要"
-description: "从请求路径出发理解缓存命中率，避免把不同层次的缓存混成一个数字。"
+title: "NFS-Ganesha Cache Hit Rate: Define the Metric Before Sampling It"
+description: "Understanding cache hit rate through request paths without collapsing different cache layers into one number."
 published: 2026-06-10
 category: "Storage Systems"
+lang: en
 tags: ["NFS-Ganesha", "Cache", "Observability"]
 ---
 
-“缓存命中率是多少”看似是一个简单问题，实际首先需要回答：哪一层缓存、哪类对象、哪段时间窗口，以及命中相对于什么请求集合。
+“What is the cache hit rate?” looks like a simple question. In practice, it first requires four definitions: which cache layer, which object type, which time window, and which request set forms the denominator.
 
-## 从请求路径建模
+## Model the request path
 
-NFS 请求进入 Ganesha 后，可能涉及元数据缓存、属性缓存、目录项缓存以及后端文件系统自身的页缓存。只看某个局部计数器，很容易把“没有访问后端”误解成“数据缓存命中”。
+After an NFS request enters Ganesha, it may involve metadata, attribute and directory-entry caches, as well as the backend file system's page cache. A local counter can easily turn “the backend was not called” into the incorrect claim that “the data cache hit.”
 
-一个可解释的指标需要明确分母。例如，属性缓存命中率的分母应是可由属性缓存回答的查询，而不是全部 NFS 操作。跨层汇总前，还要避免同一个请求被多次计数。
+An interpretable metric needs an explicit denominator. An attribute-cache hit rate, for example, should be divided by queries answerable by that cache rather than by all NFS operations. Cross-layer aggregation must also avoid counting one request more than once.
 
-## 观测边界
+## Observation boundaries
 
-建议同时记录三类信息：入口操作量、Ganesha 到 FSAL 的调用量、后端实际 I/O。它们构成一条可核对的因果链。单点指标适合告警，多点对照才适合分析。
+It is useful to record three groups together: operations at the entry point, calls from Ganesha to FSAL, and actual backend I/O. They form a causal chain that can be checked. A single metric is useful for alerting; multiple aligned metrics are needed for diagnosis.
 
-短时间窗口会受到突发流量影响，累计值又会掩盖变化。实践中可以保留单调递增计数器，在采集端计算多个窗口的速率与比率。
+Short windows are sensitive to bursts, while lifetime totals hide change. A practical setup keeps monotonically increasing counters and computes rates and ratios over several windows in the collection layer.
 
-## 结论
+## Conclusion
 
-缓存指标不是越多越好。最有价值的指标，是能够对应到明确请求路径、支持反证，并在配置或版本变化后仍保持语义稳定的指标。
+More cache metrics are not automatically better. The useful ones correspond to a clear request path, support falsification, and preserve their meaning across configuration and version changes.
