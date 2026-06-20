@@ -1,0 +1,54 @@
+<button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
+  <svg class="sun" viewBox="0 0 20 20" aria-hidden="true">
+    <circle cx="10" cy="10" r="3.25" />
+    <path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16" />
+  </svg>
+  <svg class="moon" viewBox="0 0 20 20" aria-hidden="true">
+    <path d="M16.5 12.4A6.8 6.8 0 0 1 7.6 3.5 6.8 6.8 0 1 0 16.5 12.4Z" />
+  </svg>
+</button>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const applyLabel = () => {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    toggle?.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    toggle?.setAttribute('title', dark ? 'Light theme' : 'Dark theme');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const current = document.documentElement.dataset.theme;
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    document.documentElement.style.colorScheme = next;
+    localStorage.setItem('theme', next);
+    document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute(
+      'content',
+      next === 'dark' ? '#121413' : '#f4f2ec',
+    );
+    applyLabel();
+  });
+
+  applyLabel();
+</script>
+
+<style>
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color .2s, background .2s, border-color .2s;
+  }
+  .theme-toggle:hover { color: var(--ink); background: var(--bg-tint); }
+  svg { grid-area: 1 / 1; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; transition: opacity .2s, transform .25s; }
+  .moon { opacity: 0; transform: rotate(-25deg) scale(.7); }
+  :global([data-theme='dark']) .sun { opacity: 0; transform: rotate(25deg) scale(.7); }
+  :global([data-theme='dark']) .moon { opacity: 1; transform: none; }
+</style>

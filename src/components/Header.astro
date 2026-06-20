@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import { site } from '../data/site';
 const path = Astro.url.pathname;
 const links = [
@@ -19,7 +20,10 @@ const links = [
       {links.map(([href, label]) => <a href={href} class:list={{ active: path.startsWith(href) }}>{label}</a>)}
       <a href="/resume" class:list={{ active: path.startsWith('/resume') }}>Résumé</a>
     </nav>
-    <button class="menu-button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
+    <div class="nav-actions">
+      <ThemeToggle />
+      <button class="menu-button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
+    </div>
   </div>
   <div id="mobile-nav" class="mobile-nav" hidden>
     {links.map(([href, label]) => <a href={href}>{label}</a>)}

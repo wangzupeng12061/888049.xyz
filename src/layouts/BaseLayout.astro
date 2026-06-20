@@ -16,8 +16,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f2f0e9" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#121413" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f2ec" />
+    <script is:inline>
+      (() => {
+        let stored = null;
+        try { stored = localStorage.getItem('theme'); } catch {}
+        const theme = stored === 'light' || stored === 'dark'
+          ? stored
+          : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute(
+          'content',
+          theme === 'dark' ? '#121413' : '#f4f2ec',
+        );
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
