@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+interface Props { note: { id: string; data: { title: string; description: string; published: Date; category: string } } }
+const { note } = Astro.props;
+const date = note.data.published.toLocaleDateString('en', { year: 'numeric', month: 'short', day: '2-digit' });
+---
+<a class="note-row" href={`/notes/${note.id}/`}>
+  <span class="note-date">{date}</span>
+  <span class="note-main"><strong>{note.data.title}</strong><small>{note.data.description}</small></span>
+  <span class="note-category">{note.data.category}</span>
+  <span class="note-arrow"><Icon name="arrow" /></span>
+</a>

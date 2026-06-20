@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f2f0e9"/>
+  <path d="M0 140h1200M0 490h1200M170 0v630M1030 0v630" stroke="#d9d6cc"/>
+  <circle cx="980" cy="110" r="10" fill="#77907e"/>
+  <text x="170" y="295" font-family="Arial,sans-serif" font-size="86" fill="#151716">Wang Zupeng</text>
+  <text x="175" y="365" font-family="Arial,sans-serif" font-size="27" letter-spacing="4" fill="#626863">AI SYSTEMS · AGENT MEMORY · STORAGE</text>
+  <text x="175" y="535" font-family="Arial,sans-serif" font-size="22" fill="#626863">888049.xyz</text>
+</svg>

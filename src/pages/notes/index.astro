@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteRow from '../../components/NoteRow.astro';
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const categories = [...new Set(notes.map((note) => note.data.category))];
+---
+<BaseLayout title="Notes — Wang Zupeng" description="Technical notes on AI systems, storage, infrastructure and backend engineering.">
+  <section class="page-hero shell"><p class="eyebrow">Technical notebook</p><h1>Learning in public,<br /><em>one system at a time.</em></h1><p class="page-lede">Working notes, experiments, and explanations. Written to make the next investigation faster.</p></section>
+  <section class="section shell notes-page">
+    <div class="filter-row"><span>All notes · {notes.length}</span><div>{categories.map((category) => <span>{category}</span>)}</div></div>
+    <div class="note-list">{notes.map((note) => <NoteRow note={note} />)}</div>
+  </section>
+</BaseLayout>

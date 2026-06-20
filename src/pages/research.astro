@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const directions = [
+  ['01', 'Evolving Agent Memory', 'Model memory as a changing body of knowledge with explicit operations for creation, revision, merging, and forgetting.'],
+  ['02', 'Versioned Representations', 'Track derivation and validity across text, summary, embedding, and model-specific execution artifacts.'],
+  ['03', 'KV Cache as a View', 'Treat KV cache as a materialized view bound to model, tokenizer, prompt layout, and execution environment.'],
+  ['04', 'Utility-aware Scheduling', 'Balance latency, quality, reuse probability, recomputation cost, and resource pressure across tiers.'],
+  ['05', 'Consistency & Forgetting', 'Propagate invalidation safely when factual sources are edited, merged, expired, or deleted.'],
+];
+---
+<BaseLayout title="Research — Wang Zupeng" description="Research on evolving Agent memory, versioned multi-representation storage, KV cache and utility-aware scheduling.">
+  <section class="page-hero shell research-hero">
+    <p class="eyebrow">Current research</p>
+    <h1>Infrastructure for<br /><em>evolving memory.</em></h1>
+    <p class="page-lede">How can an Agent's memory change continuously without losing consistency, efficiency, or the ability to forget?</p>
+  </section>
+  <section class="section shell research-thesis">
+    <p class="eyebrow">Thesis direction</p>
+    <div><h2>Versioned Multi-representation Storage and Utility-aware Scheduling for Evolving Agent Memory</h2><p>面向演化 Agent 记忆的版本化多表示存储与效用感知调度研究</p></div>
+  </section>
+  <section class="section section-dark">
+    <div class="shell direction-list">
+      {directions.map(([n, title, description]) => <article><span>{n}</span><h3>{title}</h3><p>{description}</p></article>)}
+    </div>
+  </section>
+  <section class="section shell research-model">
+    <div><p class="eyebrow">System model</p><h2>Facts at the center.<br />Views around them.</h2><p>The factual source remains authoritative. Derived representations are versioned, traceable, and disposable. This boundary makes reuse safe and forgetting meaningful.</p></div>
+    <div class="layer-diagram">
+      <div><small>Execution view</small><strong>KV Cache</strong><span>model · tokenizer · layout</span></div>
+      <div><small>Semantic views</small><strong>Embedding · Summary</strong><span>derived · versioned · replaceable</span></div>
+      <div class="source"><small>Factual source</small><strong>Canonical Memory</strong><span>auditable · editable · authoritative</span></div>
+    </div>
+  </section>
+</BaseLayout>

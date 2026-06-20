@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import NoteRow from '../components/NoteRow.astro';
+import Icon from '../components/Icon.astro';
+import { interests, projects, site } from '../data/site';
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()).slice(0, 4);
+---
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-status"><span></span> HUST · Wuhan, China</div>
+    <h1>Building systems<br />for <em>memory</em> that evolves.</h1>
+    <div class="hero-bottom">
+      <p>I'm <strong>{site.name}</strong>, a master's student exploring the infrastructure behind intelligent systems, from Agent memory and KV cache to distributed storage.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/research">Explore research <Icon name="arrow" /></a>
+        <a class="button secondary" href={site.github} target="_blank" rel="noreferrer"><Icon name="github" /> GitHub</a>
+      </div>
+    </div>
+    <div class="coordinate" aria-hidden="true">30.52° N<br />114.41° E</div>
+  </section>
+
+  <section class="manifesto section-dark">
+    <div class="shell two-col-head">
+      <p class="eyebrow">Research premise</p>
+      <p class="statement">Memory is not a static record. It is a living system of representations, versions, and decisions.</p>
+    </div>
+    <div class="shell interest-grid">
+      {interests.map((item) => <article><span>{item.index}</span><h3>{item.title}</h3><p>{item.detail}</p></article>)}
+    </div>
+  </section>
+
+  <section class="section shell featured-research">
+    <div class="section-heading"><p class="eyebrow">Featured research</p><span>2025 — Present</span></div>
+    <div class="research-feature">
+      <div class="research-visual" aria-hidden="true">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+        <div class="core">M</div>
+        <span class="node node-a">TEXT</span><span class="node node-b">VECTOR</span><span class="node node-c">SUMMARY</span><span class="node node-d">KV</span>
+      </div>
+      <div class="research-copy">
+        <p class="kicker">Versioned multi-representation storage</p>
+        <h2>Keeping evolving Agent memory coherent.</h2>
+        <p>This work studies how text, embeddings, summaries, and execution-specific KV-cache views can remain version-consistent while being scheduled across GPU, CPU, and SSD resources.</p>
+        <blockquote>“KV Cache is not a factual memory source, but a model-execution-specific materialized view.”</blockquote>
+        <a class="text-link" href="/research">Read the research direction <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint">
+    <div class="shell">
+      <div class="section-heading"><p class="eyebrow">Selected work</p><a href="/projects">View all projects</a></div>
+      <div class="project-grid">{projects.map((project) => <ProjectCard project={project} />)}</div>
+    </div>
+  </section>
+
+  <section class="section shell notes-preview">
+    <div class="section-heading"><p class="eyebrow">Field notes</p><a href="/notes">Browse the notebook</a></div>
+    <div class="note-list">{notes.map((note) => <NoteRow note={note} />)}</div>
+  </section>
+</BaseLayout>

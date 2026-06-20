@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects } from '../data/site';
+---
+<BaseLayout title="Projects — Wang Zupeng" description="Selected systems, backend and infrastructure projects by Wang Zupeng.">
+  <section class="page-hero shell"><p class="eyebrow">Selected projects</p><h1>Systems, examined<br /><em>from the inside.</em></h1><p class="page-lede">A record of building, measuring, and understanding systems under real constraints.</p></section>
+  <section class="section shell project-index">
+    {projects.map((project) => <article id={project.slug}>
+      <div class="project-number">{project.number}</div>
+      <div class="project-detail"><p class="kicker">{project.role}</p><h2>{project.title}</h2><p>{project.description}</p><ul>{project.tags.map((tag) => <li>{tag}</li>)}</ul></div>
+      <div class="project-signal" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    </article>)}
+  </section>
+</BaseLayout>

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { interests, site } from '../data/site';
+---
+<BaseLayout title="About — Wang Zupeng" description="About Wang Zupeng, a master's student focused on AI systems, storage systems and backend engineering.">
+  <section class="page-hero shell">
+    <p class="eyebrow">About / 关于</p>
+    <h1>Engineering with<br /><em>curiosity and care.</em></h1>
+  </section>
+  <section class="section shell about-intro">
+    <div class="portrait-wrap"><img src="/avatar.jpg" alt="Wang Zupeng" width="460" height="460" /></div>
+    <div class="prose-large">
+      <p>I am a master's student at <strong>{site.university}</strong>. My work sits between AI systems and storage: the place where model execution, evolving knowledge, and physical resources meet.</p>
+      <p>我是华中科技大学硕士研究生，主要关注 AI 系统基础设施、Agent 记忆、KV Cache 管理、存储系统与后端数据系统。</p>
+    </div>
+  </section>
+  <section class="section section-dark">
+    <div class="shell about-grid">
+      <div><p class="eyebrow">What I care about</p><h2>Questions before technologies.</h2></div>
+      <div class="principles">
+        <article><span>01</span><h3>How should memory evolve?</h3><p>Versioning, forgetting, derivation and consistency across representations.</p></article>
+        <article><span>02</span><h3>Where should data live?</h3><p>Placement and scheduling across GPU, CPU, SSD and distributed storage.</p></article>
+        <article><span>03</span><h3>What makes a system useful?</h3><p>Clear boundaries, measurable behavior and engineering that survives reality.</p></article>
+      </div>
+    </div>
+  </section>
+  <section class="section shell">
+    <div class="section-heading"><p class="eyebrow">Working vocabulary</p></div>
+    <div class="tag-cloud">{interests.map((x) => <span>{x.title}</span>)}<span>Distributed Systems</span><span>Go</span><span>Linux</span><span>Ceph</span><span>NFS</span><span>Observability</span></div>
+  </section>
+</BaseLayout>

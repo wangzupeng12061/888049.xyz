@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+const path = Astro.url.pathname;
+const links = [
+  ['/research', 'Research'],
+  ['/projects', 'Projects'],
+  ['/notes', 'Notes'],
+  ['/about', 'About'],
+];
+---
+<header class="site-header">
+  <div class="nav-shell">
+    <a class="brand" href="/" aria-label="Wang Zupeng home">
+      <span class="brand-mark">WZ</span>
+      <span>{site.domain}</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      {links.map(([href, label]) => <a href={href} class:list={{ active: path.startsWith(href) }}>{label}</a>)}
+      <a href="/resume" class:list={{ active: path.startsWith('/resume') }}>Résumé</a>
+    </nav>
+    <button class="menu-button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
+  </div>
+  <div id="mobile-nav" class="mobile-nav" hidden>
+    {links.map(([href, label]) => <a href={href}>{label}</a>)}
+    <a href="/resume">Résumé</a>
+  </div>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  button?.addEventListener('click', () => {
+    if (!menu) return;
+    const open = menu.hidden;
+    menu.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    button.innerHTML = open
+      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 4 12 12M16 4 4 16"/></svg>'
+      : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 14h14"/></svg>';
+  });
+</script>

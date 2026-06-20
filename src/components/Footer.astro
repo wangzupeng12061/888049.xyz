@@ -1,0 +1,18 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<footer>
+  <div class="footer-main">
+    <div>
+      <p class="eyebrow">Keep in touch</p>
+      <h2>Ideas become clearer<br />when they are shared.</h2>
+    </div>
+    <a class="round-link" href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub profile"><Icon name="github" /></a>
+  </div>
+  <div class="footer-meta">
+    <span>© {new Date().getFullYear()} Wang Zupeng</span>
+    <span>Built with Astro · Hosted on Azure</span>
+    <a href="/contact">Contact</a>
+  </div>
+</footer>

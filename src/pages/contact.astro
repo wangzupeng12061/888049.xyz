@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="Contact — Wang Zupeng" description="Contact Wang Zupeng about AI systems, storage systems and engineering work.">
+  <section class="contact-page shell">
+    <p class="eyebrow">Contact</p><h1>Let's exchange<br /><em>useful ideas.</em></h1>
+    <p>For research discussions, engineering collaboration, or project questions, the best current channel is GitHub.</p>
+    <a class="button primary" href={site.github} target="_blank" rel="noreferrer"><Icon name="github" /> GitHub profile</a>
+    <small>A public email address will be added after confirmation.</small>
+  </section>
+</BaseLayout>
